@@ -1,0 +1,24 @@
+{% extends "base.html" %} {% load crispy_forms_tags %}
+
+<!-- -->
+{% block content %}
+<div class="container bg-success-subtle shadow-lg p-5 w-50 mt-3 rounded-3">
+    <h3>Welcome, Again</h3>
+
+    <hr />
+
+    <form action="{% url 'user-login' %}" method="post" novalidate>
+        <!-- csrf -->
+        {% csrf_token %}
+        <!-- form -->
+        {{ login_form| crispy }}
+
+        <button type="submit" class="btn btn-success w-100 p-2 mt-3 fs-5 fw-bold">Login</button>
+    </form>
+    <br />
+    <div class="text-center">
+        <span>Don't have an account?</span>
+        <a href="{% url 'user-register' %}" class="link-underline-info fs-6 fw-bold">Register</a>
+    </div>
+</div>
+{% endblock content %}
