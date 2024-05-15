@@ -1,8 +1,10 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% load template_filters %}
 
 <!-- -->
 {% block content %}
 <h1 class="text-info mt-4">All Complaints</h1>
+<hr />
+<a href="{% url 'create-complaint' %}" class="btn btn-primary" type="button">Create Complaint</a>
 <hr />
 <table class="table table-responsive table-bordered table-hover table-striped text-center">
     <thead class="text-center table-dark">
@@ -29,7 +31,7 @@
                 {% endif %}
             </td>
             <td>{{ complaint.old_ticket_id| default:'-' }}</td>
-            <td>{{ complaint.status }}</td>
+            <td>{{ complaint.status| process }}</td>
             <td>
                 {% if user.is_superuser %} {{ complaint.created_by.username }} {% else %} You
                 <!-- -->
@@ -39,7 +41,11 @@
                 <a href="{% url 'index' %}" type="button" class="btn btn-primary">
                     <i class="fa-solid fa-eye me-2"></i>view
                 </a>
-                <a href="{% url 'index' %}" type="button" class="btn btn-primary">
+                <a
+                    href="{% url 'edit-complaint' complaint.id %}"
+                    type="button"
+                    class="btn btn-primary"
+                >
                     <i class="fa-solid fa-pen-to-square me-2"></i>Edit
                 </a>
             </td>

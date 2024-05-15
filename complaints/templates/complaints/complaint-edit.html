@@ -1,0 +1,23 @@
+{% extends "base.html" %} {% load crispy_forms_tags %}
+
+<!-- -->
+{% block content %}
+<div class="container bg-dark shadow-lg p-5 w-50 mt-3 rounded-3 text-white" data-bs-theme="dark">
+    <h3>Welcome, Again</h3>
+
+    <hr />
+
+    <form action="" method="post" novalidate>
+        <!-- csrf -->
+        {% csrf_token %}
+        <!-- form -->
+        {{ form| crispy }}
+
+        <button type="submit" class="btn btn-success w-100 p-2 mt-3 fs-5 fw-bold">
+            {{ btn_val }}
+        </button>
+    </form>
+    <br />
+    <a href="{% url 'complaint-list' %}" class="link-light">Return to Complaints</a>
+</div>
+{% endblock content %}
