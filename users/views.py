@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 
-from .forms import CreateUser, LoginForm
+from users.forms import CreateUser, LoginForm
 
 
 # ? home page
@@ -20,7 +20,7 @@ def login_user(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('index')
+                return redirect('com-dashboard')
             form.add_error('', "Please enter correct username or password.")
     return render(request, 'users/login.html', {'login_form': form})
 

@@ -31,6 +31,11 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # * admin tab change
+    'semantic_admin',
+    'semantic_forms',
+
+    # * default apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,9 +46,11 @@ INSTALLED_APPS = [
     # * third party apps
     'crispy_forms',
     'crispy_bootstrap5',
+    'django_filters',
 
     # * custom app
     'users',
+    'complaints',
 ]
 
 MIDDLEWARE = [

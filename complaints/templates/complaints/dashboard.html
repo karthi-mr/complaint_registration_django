@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+<!-- -->
+{% block content %}
+<h1 class="text-primary text-center mt-4">Welcome {{ user.username }}</h1>
+<hr />
+
+<a href="{% url 'complaint-list' %}" type="button" class="btn btn-primary">
+    {% if user.is_superuser %} Go to All Complaints {% else %} Go to My Complaints {% endif %}
+</a>
+{% endblock content %}

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+<!-- -->
+{% block content %}
+<h1 class="text-info mt-4">All Complaints</h1>
+<hr />
+<table class="table table-responsive table-bordered table-hover table-striped text-center">
+    <thead class="text-center table-dark">
+        <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Category</th>
+            <th scope="col">Is Already Raised</th>
+            <th scope="col">Old Ticked Id</th>
+            <th scope="col">Status</th>
+            <th scope="col">Created By</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for complaint in complaints %}
+        <tr>
+            <td>{{ complaint.title }}</td>
+            <td>{{ complaint.category }}</td>
+            <td>
+                {% if complaint.already_raised %}
+                <i class="fa-solid fa-circle-check" style="color: #63e6be"></i>
+                {% else %}
+                <i class="fa-solid fa-circle-xmark" style="color: #ff0000"></i>
+                {% endif %}
+            </td>
+            <td>{{ complaint.old_ticket_id| default:'-' }}</td>
+            <td>{{ complaint.status }}</td>
+            <td>
+                {% if user.is_superuser %} {{ complaint.created_by.username }} {% else %} You
+                <!-- -->
+                {%endif %}
+            </td>
+            <td>
+                <a href="{% url 'index' %}" type="button" class="btn btn-primary">
+                    <i class="fa-solid fa-eye me-2"></i>view
+                </a>
+                <a href="{% url 'index' %}" type="button" class="btn btn-primary">
+                    <i class="fa-solid fa-pen-to-square me-2"></i>Edit
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock content %}
