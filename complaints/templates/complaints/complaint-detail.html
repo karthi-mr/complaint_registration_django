@@ -1,0 +1,78 @@
+{% extends "base.html" %} {% load template_filters %}
+
+<!-- -->
+{% block content %}
+<div class="container shadow-lg p-5 w-75 mt-3 rounded-3">
+    {% if no_complaint %}
+    <p class="text-center display-2 text-danger">No complaint found!!!</p>
+    {% else %}
+    <div class="card">
+        <h3 class="card-header">{{ complaint.title }}</h3>
+        <div class="card-body">
+            <table class="table">
+                <tbody>
+                    <!-- category -->
+                    <tr>
+                        <th>Category</th>
+                        <td>{{ complaint.category }}</td>
+                    </tr>
+                    <!-- description -->
+                    <tr>
+                        <th>Description</th>
+                        <td>{{ complaint.description| default:"-" }}</td>
+                    </tr>
+                    <!-- already raised -->
+                    <tr>
+                        <th>Already raised ?</th>
+                        <td>{{ complaint.already_raised| yesno:"YES, NO" }}</td>
+                    </tr>
+                    <!-- old ticket id -->
+                    <tr>
+                        <th>Old ticket id</th>
+                        <td>
+                            <b>{{ complaint.old_ticket_id| default:"-" }}</b>
+                            {% if complaint.old_ticket_id %}
+                            <a
+                                href="{% url 'view-complaint' complaint.old_ticket_id %}"
+                                class="link-info"
+                            >
+                                <i class="fa-solid fa-eye"></i>
+                                View Complaint
+                            </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <!-- status -->
+                    <tr>
+                        <th>Status</th>
+                        <td>{{ complaint.status| process }}</td>
+                    </tr>
+                    <!-- created by -->
+                    <tr>
+                        <th>Created by</th>
+                        <td>{{ complaint.created_by }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <a
+                                href="{% url 'edit-complaint' complaint.id %}"
+                                class="btn btn-success"
+                            >
+                                <i class="fa-solid fa-pen-to-square"></i>
+                                Edit
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+
+    <hr />
+    <a href="{% url 'complaint-list' %}" class="link-primary">
+        <i class="fa-solid fa-left-long"></i>
+        Return to Complaints
+    </a>
+</div>
+{% endblock content %}
