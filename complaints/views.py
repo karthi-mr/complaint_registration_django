@@ -23,7 +23,7 @@ def create_complaint(request):
     if request.method == 'POST':
         form = ComplaintForm(data=request.POST)
         if request.user.is_superuser:
-            form.add_error('', "Super users can't create complaints😔!")
+            form.add_error('', "Admins can't create complaints😔!")
         if form.is_valid():
             complaint = form.save(commit=False)
             complaint.created_by = request.user
@@ -48,14 +48,13 @@ def edit_complaint(request, pk: int | None = None):
         form = ComplaintEditForm(instance=comp, data=request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            print(data)
-            if data.get("already_raised"):
+            if not request.user.is_superuser and data.get("already_raised"):
                 old_ticket: int | None = data.get("old_ticket_id")
                 try:
-                    Complaint.objects.get(id=old_ticket)
+                    Complaint.objects.get(id=old_ticket, created_by=request.user)
                     form.save()
                 except Complaint.DoesNotExist:
-                    form.add_error('old_ticket_id', f"Ticket with above id not found");
+                    form.add_error('old_ticket_id', f"Ticket with above id not found or raised ticket was not created by you!");
                     return render(request, 'complaints/complaint-edit.html', {'form': form, 'btn_val': "Update Complaint"})
             form.save()
             return redirect('view-complaint', comp.id) # type: ignore
